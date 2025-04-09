@@ -12,6 +12,8 @@ class Proyeccion extends Model
     /** @use HasFactory<\Database\Factories\ProyeccionFactory> */
     use HasFactory;
 
+    protected $table = 'proyecciones';
+
     protected $fillable = ['prelicula_id', 'fecha_hora', 'sala_id'];
 
     public function peliculla(){
