@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PeliculaController;
+use App\Models\Pelicula;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
@@ -13,3 +15,5 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 require __DIR__.'/auth.php';
+
+Route::resource('peliculas', PeliculaController::class);

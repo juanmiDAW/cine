@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePeliculaRequest;
 use App\Http\Requests\UpdatePeliculaRequest;
 use App\Models\Pelicula;
+use Illuminate\Auth\Events\Validated;
+use Illuminate\Http\RedirectResponse;
 
 class PeliculaController extends Controller
 {
@@ -13,7 +15,7 @@ class PeliculaController extends Controller
      */
     public function index()
     {
-        //
+        return view('peliculas.index', ['peliculas' => Pelicula::all()]);
     }
 
     /**
@@ -21,7 +23,7 @@ class PeliculaController extends Controller
      */
     public function create()
     {
-        //
+        return view('peliculas.create');
     }
 
     /**
@@ -29,7 +31,10 @@ class PeliculaController extends Controller
      */
     public function store(StorePeliculaRequest $request)
     {
-        //
+        $validate = $request->validated();
+        Pelicula::create($validate);
+
+        return redirect()->route('peliculas.index');
     }
 
     /**
@@ -37,7 +42,7 @@ class PeliculaController extends Controller
      */
     public function show(Pelicula $pelicula)
     {
-        //
+        return view('peliculas.show', [ 'pelicula' => $pelicula]);
     }
 
     /**
@@ -45,7 +50,7 @@ class PeliculaController extends Controller
      */
     public function edit(Pelicula $pelicula)
     {
-        //
+        return view('peliculas.edit', ['pelicula' => $pelicula]);
     }
 
     /**
@@ -53,7 +58,12 @@ class PeliculaController extends Controller
      */
     public function update(UpdatePeliculaRequest $request, Pelicula $pelicula)
     {
-        //
+        $validate = $request->validated();
+
+        $pelicula->fill($validate);
+        $pelicula->save();
+
+        return redirect()->route('peliculas.index');
     }
 
     /**
@@ -61,6 +71,7 @@ class PeliculaController extends Controller
      */
     public function destroy(Pelicula $pelicula)
     {
-        //
+        $pelicula->delete();
+        return redirect()->route('peliculas.index');
     }
 }
